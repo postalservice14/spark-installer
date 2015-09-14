@@ -1,0 +1,25 @@
+{
+    "name": "laravel/spark-installer",
+    "description": "Quick installer for Laravel Spark.",
+    "keywords": ["laravel", "spark"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Taylor Otwell",
+            "email": "taylorotwell@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Laravel\\SparkInstaller\\": "src/"
+        }
+    },
+    "require": {
+        "illuminate/support": "~5.0",
+        "symfony/console": "~2.3",
+        "symfony/process": "~2.3"
+    },
+    "bin": [
+        "spark"
+    ]
+}
