@@ -25,14 +25,36 @@ class InstallCommand extends Command
     /**
      * Execute the command.
      *
+     * @param InputInterface $input
+     * @param OutputInterface $output
      * @return void
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-    	passthru('composer require laravel/spark');
+        $composer = $this->findComposer();
 
-    	copy(__DIR__.'/stubs/app.php', getcwd().'/config/app.php');
+        $process = new Process($composer . ' require laravel/spark', null, null, null, null);
 
-    	passthru('php artisan spark:install');
+        $process->run(function ($type, $line) use ($output) {
+            $output->write($line);
+        });
+
+        copy(__DIR__.'/stubs/app.php', getcwd().'/config/app.php');
+
+        passthru('php artisan spark:install');
+    }
+
+    /**
+     * Get the composer command for the environment.
+     *
+     * @return string
+     */
+    private function findComposer()
+    {
+        if (file_exists(getcwd() . '/composer.phar')) {
+            return '"' . PHP_BINARY . '" composer.phar"';
+        }
+
+        return 'composer';
     }
 }
